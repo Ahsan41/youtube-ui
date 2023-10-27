@@ -86,7 +86,8 @@ margin-bottom: 20px;
 `;
 
 const Menu = ({ darkmode, setdarkmode }) => {
-  // const { currentUser } = useSelector((state )=> state.user.currentUser)
+  const user = useSelector((state )=> state)
+  console.log(user , "kkkkkkkkkkkkkkkkkkkkkkkk");
   return(
     <Container>
     <Wrapper>
@@ -128,7 +129,7 @@ const Menu = ({ darkmode, setdarkmode }) => {
       </Item>
       <Hr />
       { 
-      //  !currentUser && 
+       !user && 
 
         <>
       <Login>

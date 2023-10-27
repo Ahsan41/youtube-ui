@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../Redux/userSlice";
-
+import { useNavigate } from "react-router-dom";
+import { auth, provider } from "../firebase"
+import { signInWithPopup } from "firebase/auth";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -67,37 +69,63 @@ const Link = styled.span`
 `;
 
 const Signin = () => {
-  const [name,setName] = useState("")
-  const [password,setPassword] = useState("")
-  const [email,setEmail] = useState("")
+  const Navigate = useNavigate()
+  const [name, setName] = useState("")
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
 
   const dispatch = useDispatch()
- 
-  const handleLogin = async(e)=>{
-   e.preventDefault()
-   dispatch(loginStart())
-   try {
-    const res = await axios.post("http://localhost:4000/auth/signin",{name,password})
-    dispatch(loginSuccess(res.data))
-    console.log(res.data)
-   } catch (error) {
-    // console.log(error);
-    dispatch(loginFailure())
-   }
-  }
 
-    return (
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    dispatch(loginStart())
+    try {
+      const res = await axios.post("http://localhost:4000/auth/signin", { name, password })
+      dispatch(loginSuccess(res.data))
+
+      console.log("helooo", res.data)
+    } catch (error) {
+      console.log(error);
+      dispatch(loginFailure())
+
+    }
+  }
+  const navigate = useNavigate()
+  const google =async ()=>{
+    dispatch(loginStart())
+    signInWithPopup(auth,provider)
+    .then(async (result)=>{
+     await axios.post("http://localhost:4000/auth/google",{
+        name: result.user.displayName,
+        email: result.user.email,
+        img: result.user.photoURL,
+    
+      })
+      .then((res) => {
+        console.log(res)
+        dispatch(loginSuccess(res.data));
+        navigate("/")
+      });
+      console.log(result);
+    }).catch((err)=>{
+      dispatch(loginFailure())
+    })
+  }
+  return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to LamaTube</SubTitle>
-        <Input placeholder="username" onChange={(e)=>setName(e.target.value)} />
-        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)}/>
+        <Input placeholder="username" onChange={(e) => setName(e.target.value)} />
+        <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
         <Button onClick={handleLogin}>Sign in</Button>
         <Title>or</Title>
-        <Input placeholder="username" onChange={(e)=>setName(e.target.value)}/>
-        <Input placeholder="email" onChange={(e)=>setEmail(e.target.value)}/>
-        <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)}/>
+        <Button onClick={google}>Sign in with Google</Button>
+        <Title>or</Title>
+
+        <Input placeholder="username" onChange={(e) => setName(e.target.value)} />
+        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
         <Button>Sign up</Button>
       </Wrapper>
       <More>

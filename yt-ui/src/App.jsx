@@ -37,7 +37,7 @@ function App() {
           <Main>
             <Navbar />
             <Wrapper>
-
+             <Home />
               <Routes>
                 <Route path='/'>
                   <Route index element={<Home type='random' />} />
@@ -48,7 +48,9 @@ function App() {
                     <Route path=':id' element={<Video />} />
                   </Route>
                 </Route>
+
               </Routes>
+              {/* <Card /> */}
             </Wrapper>
           </Main>
         </Router>

@@ -1,9 +1,10 @@
 import { SearchOutlined, VideoCallOutlined } from '@mui/icons-material';
 import AccountCircleOutlinedIcon  from "@mui/icons-material/AccountCircleOutlined";
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Upload from './Upload';
 
 const Container = styled.div`
 positon:sticky;
@@ -58,6 +59,7 @@ const User = styled.div`
   align-items: center;
   gap: 10px;
   font-weight: 500;
+  padding : 10px ;
   color: ${({ theme }) => theme.text};
 `;
 
@@ -69,33 +71,36 @@ background: #999;
 `
 
 const Navbar = () => {
-//     const { currentUser } = useSelector((state) => state.user)
-       
-//     return (
-//         <Container>
-//             <Wrapper>
-//                 <Search>
-//                     <Input placeholder='search' />
-//                     < SearchOutlined />
-//                 </Search>
-//               {currentUser ? 
-//                  (<User>
-                    
-//                     <VideoCallOutlined/>
-//                     <Avatar/>
-//                     {currentUser.name}
-//                 </User> ) : (<Link to='signin' style={{ textDecoration: "none", color: "inherit" }}>
-//                     <Button>
-//                         <AccountCircleOutlinedIcon />
-//                         SIGN IN
-//                     </Button>
-//                 </Link>)
-//                 }
-//             </Wrapper>
+    const  user  = useSelector((state) => state.persistedReducer.currentUser.currentUser)
+    // console.log(user,"heloooooooooooooooo");
+    // console.log(user.username,"name");
+     const [open,setOpen]=useState(false)
+    return (
+        <>
+        <Container>
+            <Wrapper>
+                <Search>
+                    <Input placeholder='search' />
+                    < SearchOutlined />
+                </Search>
+              {!user ? 
+                  (<Link to='signin' style={{ textDecoration: "none", color: "inherit" }}>
+                    <Button>
+                        <AccountCircleOutlinedIcon />
+                        SIGN IN
+                    </Button>
+                </Link>)  : (<User>
+                    <VideoCallOutlined onClick={()=> setOpen(true)}/>
+                    <Avatar src={user.img}/>
+                    {user.username}
+                </User> ) 
+                }
+            </Wrapper>
 
-//         </Container>
-
-//     );
+        </Container>
+       {open && <Upload setOpen={setOpen}/>}
+        </>
+    );
 }
 
 export default Navbar;
