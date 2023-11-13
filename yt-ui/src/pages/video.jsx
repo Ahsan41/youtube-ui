@@ -124,7 +124,7 @@ const Video = () => {
   const  user  = useSelector((state) => state.persistedReducer.currentUser.currentUser)
   // console.log(token);
   
-  const  video  = useSelector((state) => state.persistedReducer.video.currentVideo)
+  const  videostate  = useSelector((state) => state.persistedReducer.video.currentVideo)
   
    const [channel,setChannel] = useState({})
  
@@ -132,7 +132,7 @@ const Video = () => {
    const path = useLocation().pathname.split("/")[2]
   
   // console.log(user, "user");
-  console.log(video,"viiideoooooooooo");
+  console.log(videostate,"viiideoooooooooo");
   
     useEffect(()=>{
       const fetchData = async () => {
@@ -141,6 +141,7 @@ const Video = () => {
           const channelRes = await axios.get(
             `http://localhost:4000/user/find/${videoRes.data.userId}`
             );
+            console.log(videoRes.data,"channelRes.data")
           setChannel(channelRes.data)
           // console.log(channelRes.data,"channel");
           // console.log(videoRes.data,"lllll");
@@ -163,7 +164,7 @@ const bodyParameters = {
 
   const HandleLike = async ()=>{
     try {
-     await axios.put(`http://localhost:4000/user/like/${video._id}`,bodyParameters,config)
+     await axios.put(`http://localhost:4000/user/like/${videostate._id}`,bodyParameters,config)
      dispatch(like(user._id));
     } catch (error) {
     console.log(error);  
@@ -173,7 +174,7 @@ const bodyParameters = {
   const HandleDislike = ()=>{
     try {
       
-      axios.put(`http://localhost:4000/user/dislike/${video._id}`,bodyParameters,config)
+      axios.put(`http://localhost:4000/user/dislike/${videostate._id}`,bodyParameters,config)
       dispatch(dislike(user._id));
     } catch (error) {
       console.log(error); 
@@ -193,17 +194,17 @@ const bodyParameters = {
     <Container>
       <Content>
         <VideoWrapper>
-        <VideoFrame src={Video.videoUrl} controls/>
+        <VideoFrame src={videostate.videoUrl} controls/>
         </VideoWrapper>
-      <Title>{video?.tittle}</Title>
+      <Title>{videostate?.tittle}</Title>
         <Details>
-          <Info>{video?.views} views • {format(video?.createdAt)}</Info>
+          <Info>{videostate?.views} views • {format(videostate?.createdAt)}</Info>
           <Buttons>
             <Button onClick={HandleLike}>
-             { video.like.includes(user._id) ?( <ThumbUp/> ) : (<ThumbUpOutlinedIcon />) } {video.like.length}
+             { videostate.like.includes(user?._id) ?( <ThumbUp/> ) : (<ThumbUpOutlinedIcon />) } {videostate?.like?.length}
             </Button>
             <Button onClick={HandleDislike}>
-             { video?.dislike?.includes(user._id) ? ( <ThumbDown/> ) :  ( <ThumbDownOffAltOutlinedIcon />)} {video?.dislike?.length}
+             { videostate?.dislike?.includes(user?._id) ? ( <ThumbDown/> ) :  ( <ThumbDownOffAltOutlinedIcon />)} {videostate?.dislike?.length}
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -221,21 +222,21 @@ const bodyParameters = {
               <ChannelName>{channel.username}</ChannelName>
               <ChannelCounter>{channel.Subscribers} subcribers</ChannelCounter>
               <Description>
-               {video?.desc}
+               {videostate?.desc}
               </Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>  
-          {user.subscribeUsers?.includes(channel._id)
+          {user?.subscribeUsers?.includes(channel._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
               </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={video._id}/>
-      //  </Content>
-    //   <Recommendation>
-    //     {/* <Card type="sm"/>
+        {/* <Comments videoId={video._id}/> */}
+        </Content>
+       <Recommendation>
+         {/* <Card type="sm"/>
     //     <Card type="sm"/>
     //     <Card type="sm"/>
     //     <Card type="sm"/>
