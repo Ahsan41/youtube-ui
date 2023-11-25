@@ -2,7 +2,7 @@ import { SearchOutlined, VideoCallOutlined } from '@mui/icons-material';
 import AccountCircleOutlinedIcon  from "@mui/icons-material/AccountCircleOutlined";
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Upload from './Upload';
 
@@ -72,16 +72,19 @@ background: #999;
 
 const Navbar = () => {
     const  user  = useSelector((state) => state.persistedReducer.currentUser.currentUser)
-    // console.log(user,"heloooooooooooooooo");
-    // console.log(user.username,"name");
-     const [open,setOpen]=useState(false)
+    const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
+    const [q, setQ] = useState("");
+
     return (
         <>
         <Container>
             <Wrapper>
                 <Search>
-                    <Input placeholder='search' />
-                    < SearchOutlined />
+                    <Input placeholder='search'
+                     onChange={(e) => setQ(e.target.value)}
+                     />
+                    < SearchOutlined  onClick={()=>navigate(`/search?q=${q}`)}/>
                 </Search>
               {!user ? 
                   (<Link to='signin' style={{ textDecoration: "none", color: "inherit" }}>

@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import Video from './pages/video';
 import Signin from './pages/signin';
+import Search from './pages/search.jsx';
 
 const Container = styled.div`
 display:flex;
@@ -44,6 +45,8 @@ function App() {
                   <Route path='trend' element={<Home type='trend' />} />
                   <Route path='subscription' element={<Home type='sub' />} />
                   <Route path='signin' element={<Signin />} />
+                  <Route path='search' element={<Search />} />
+
                   <Route path='video'>
                     <Route path=':id' element={<Video />} />
                   </Route>

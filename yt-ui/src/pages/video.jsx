@@ -130,6 +130,7 @@ const Video = () => {
  
    const dispatch = useDispatch();
    const path = useLocation().pathname.split("/")[2]
+   console.log(path);
   
   // console.log(user, "user");
   console.log(videostate,"viiideoooooooooo");
@@ -194,7 +195,7 @@ const bodyParameters = {
     <Container>
       <Content>
         <VideoWrapper>
-        <VideoFrame src={videostate.videoUrl} controls/>
+        <VideoFrame src={videostate?.videoUrl} controls/>
         </VideoWrapper>
       <Title>{videostate?.tittle}</Title>
         <Details>
@@ -233,7 +234,7 @@ const bodyParameters = {
               </Subscribe>
         </Channel>
         <Hr />
-        {/* <Comments videoId={video._id}/> */}
+        <Comments videoId={videostate?._id}/>
         </Content>
        <Recommendation>
          {/* <Card type="sm"/>
