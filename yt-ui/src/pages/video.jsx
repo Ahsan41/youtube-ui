@@ -16,6 +16,7 @@ import {  ThumbDown, ThumbUp } from "@mui/icons-material";
 
 import Comments from "../components/comments";
 import { subscription } from "../Redux/userSlice";
+import Recommendation from "../components/Recomendation";
 
 const Container = styled.div`
   display: flex;
@@ -63,9 +64,9 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
+// const Recommendation = styled.div`
+//   flex: 2;
+// `;
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -236,22 +237,9 @@ const bodyParameters = {
         <Hr />
         <Comments videoId={videostate?._id}/>
         </Content>
-       <Recommendation>
-         {/* <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/>
-    //     <Card type="sm"/> */}
-    //   </Recommendation>
-    // </Container>
+  
+        <Recommendation tags={videostate?.tags} />
+    </Container>
   );
 };
 
